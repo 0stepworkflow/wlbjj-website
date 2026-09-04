@@ -818,6 +818,13 @@ section { padding-block: var(--space-7); }
   font-size: 0.82rem;
 }
 .class-row .class-name { font-weight: 600; }
+@media (max-width: 480px) {
+  /* Recover horizontal room so entries like "Little Ninjas No-Gi (Ages 4–7)"
+     fit on one line instead of wrapping the age range to its own line. */
+  .day-classes { padding-inline: var(--space-3); }
+  .class-row { gap: var(--space-2); font-size: 0.86rem; }
+  .class-row .class-time { width: 68px; font-size: 0.76rem; }
+}
 .class-row .class-name em { font-style: normal; font-weight: 500; opacity: 0.7; font-size: 0.88em; }
 
 .day-icon {
