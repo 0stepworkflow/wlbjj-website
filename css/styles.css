@@ -630,6 +630,19 @@ section { padding-block: var(--space-7); }
   .program-split.reverse { grid-template-areas: "image head" "image body"; }
 }
 
+/* Optional wrapper for program-split content whose head/body text is short
+   (no checklist/CTA to fill the row) — keeps head+body flowing as one block,
+   centered against the image on desktop, while still splitting around the
+   image on mobile via display:contents. */
+@media (max-width: 1023px) {
+  .program-split .program-text { display: contents; }
+}
+@media (min-width: 1024px) {
+  .program-split:has(.program-text) { grid-template-areas: "text image"; }
+  .program-split.reverse:has(.program-text) { grid-template-areas: "image text"; }
+  .program-split .program-text { grid-area: text; }
+}
+
 /* Checklist / feature list */
 .check-list li {
   display: flex;
@@ -877,7 +890,7 @@ section { padding-block: var(--space-7); }
 .day-row--closed .closed-sub { font-size: 0.85rem; opacity: 0.75; margin-top: 2px; }
 @media (max-width: 767px) {
   .day-row--closed .day-badge { border-right: none; border-bottom: 1px solid rgba(10,10,10,0.1); }
-  .day-row--closed .day-classes { align-items: flex-start; text-align: left; padding-top: var(--space-3); padding-bottom: var(--space-4); }
+  .day-row--closed .day-classes { padding-top: var(--space-3); padding-bottom: var(--space-4); }
 }
 
 .schedule-legend {

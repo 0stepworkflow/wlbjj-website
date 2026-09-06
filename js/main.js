@@ -94,4 +94,10 @@
   // --- Current year in footer ---
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  // --- "Visit Us" link: send iOS users to Apple Maps, everyone else to Google Maps ---
+  var visitLink = document.getElementById('visit-us-link');
+  if (visitLink && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    visitLink.href = 'https://maps.apple.com/?address=4202+Center+St,+Deer+Park,+TX+77536';
+  }
 })();
