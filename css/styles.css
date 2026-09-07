@@ -188,7 +188,8 @@ section { padding-block: var(--space-7); }
   transition: transform var(--duration-fast) var(--ease-out),
               background-color var(--duration-fast) var(--ease-out),
               border-color var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out);
+              color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -199,14 +200,23 @@ section { padding-block: var(--space-7); }
   color: #0A0A0A;
   border-color: var(--color-yellow);
 }
-.btn-primary:hover { background: var(--color-yellow-hover); border-color: var(--color-yellow-hover); }
+.btn-primary:hover {
+  background: var(--color-yellow-hover);
+  border-color: var(--color-yellow-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(252, 239, 11, 0.22);
+}
 
 .btn-outline {
   background: transparent;
   color: var(--color-fg);
   border-color: var(--color-border-strong);
 }
-.btn-outline:hover { border-color: var(--color-yellow); color: var(--color-yellow); }
+.btn-outline:hover {
+  border-color: var(--color-yellow);
+  color: var(--color-yellow);
+  transform: translateY(-2px);
+}
 
 .btn-sm { min-height: 44px; padding: 0 var(--space-4); font-size: 0.9rem; }
 .btn-block { width: 100%; }
@@ -268,13 +278,17 @@ section { padding-block: var(--space-7); }
   transition: color var(--duration-fast) var(--ease-out);
 }
 .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--color-fg); }
-.nav-links a[aria-current="page"]::after {
+.nav-links a::after {
   content: '';
   position: absolute;
   left: 0; right: 0; bottom: -2px;
   height: 2px;
   background: var(--color-yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-out);
 }
+.nav-links a:hover::after, .nav-links a[aria-current="page"]::after { transform: scaleX(1); }
 
 .header-cta {
   display: none;
@@ -478,7 +492,12 @@ section { padding-block: var(--space-7); }
   justify-content: center;
   box-shadow: 24px 24px 0 0 var(--color-yellow);
 }
-.hero-poster img { width: 62%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6)); }
+.hero-poster img {
+  width: 62%;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+.hero-poster:hover img { transform: scale(1.05); }
 .hero-poster .poster-tag {
   position: absolute;
   top: var(--space-4);
@@ -661,7 +680,10 @@ section { padding-block: var(--space-7); }
   border: 1px solid var(--color-border);
   padding: var(--space-5);
   height: 100%;
+  transition: transform var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out);
 }
+.testimonial:hover { transform: translateY(-4px); border-color: var(--color-yellow); }
 .testimonial .stars { display: flex; gap: 2px; color: var(--color-yellow); margin-bottom: var(--space-3); }
 .testimonial .stars svg { width: 18px; height: 18px; }
 .testimonial blockquote { margin: 0; font-size: 1.05rem; line-height: 1.6; }
@@ -975,6 +997,15 @@ section { padding-block: var(--space-7); }
 
 /* Stagger children */
 [data-reveal-group] > * { transition-delay: calc(var(--stagger-i, 0) * 70ms); }
+
+/* Page-load entrance (not scroll-triggered — for above-the-fold content that's
+   visible immediately, like the home hero and every inner page's header) */
+@keyframes enter-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-copy, .page-hero .container { animation: enter-up var(--duration-slow) var(--ease-out) both; }
+.mobile-cta-bar { animation: enter-up var(--duration-slow) var(--ease-out) 150ms both; }
 
 /* ==========================================================================
    Page header (inner pages)

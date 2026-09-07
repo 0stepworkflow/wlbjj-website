@@ -82,6 +82,29 @@
     }
   }
 
+  // --- Count-up stats (e.g. hero "18 Classes / Week") ---
+  var countEls = document.querySelectorAll('[data-count]');
+  if (countEls.length) {
+    var skipCountAnim = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    countEls.forEach(function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      if (isNaN(target)) return;
+      if (skipCountAnim) {
+        el.textContent = String(target);
+        return;
+      }
+      var duration = 900;
+      var start = null;
+      var step = function (timestamp) {
+        if (start === null) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        el.textContent = String(Math.round(progress * target));
+        if (progress < 1) window.requestAnimationFrame(step);
+      };
+      window.requestAnimationFrame(step);
+    });
+  }
+
   // --- Active nav link (aria-current) based on current path ---
   var path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(function (link) {
