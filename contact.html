@@ -129,19 +129,8 @@
       </div>
 
       <div data-reveal>
-        <!--
-          Lead form — submits via FormSubmit.co (https://formsubmit.co), an
-          email-forwarding endpoint that requires no account signup. Submissions
-          are emailed to mike.wlbjj@gmail.com. FormSubmit sends a ONE-TIME
-          confirmation email to that address the first time this form is
-          submitted — click "Activate Form" in that email or delivery won't work.
-          When Gymdesk (or another CRM) is connected, this can be swapped for
-          Gymdesk's embeddable signup widget instead.
-        -->
-        <form class="card" style="background:var(--color-card);border:1px solid var(--color-border);padding:var(--space-5);" action="https://formsubmit.co/ajax/mike.wlbjj@gmail.com" method="post" data-form="lead-capture">
-          <input type="hidden" name="_subject" value="New free class request — Washington Luis BJJ website">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
+        <!-- Lead form: posts to send-form.php, which emails the business owner. -->
+        <form class="card" style="background:var(--color-card);border:1px solid var(--color-border);padding:var(--space-5);" action="send-form.php" method="post" data-form="lead-capture">
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
           <h2 class="h-card" style="font-size:1.3rem;">Request Your Free First Class</h2>
           <div class="form-grid two mt-4">
@@ -270,7 +259,7 @@
 
 <script src="js/main.js?v=8"></script>
 <script>
-  // Submits to FormSubmit.co via fetch so we can show our own confirmation UI
+  // Submits to send-form.php via fetch so we can show our own confirmation UI
   // instead of redirecting off-site. Falls back to a clear error state (with
   // a call/text prompt) if the request fails, rather than pretending it worked.
   var leadForm = document.querySelector('[data-form="lead-capture"]');
@@ -289,6 +278,10 @@
       })
         .then(function (res) {
           if (!res.ok) throw new Error('Request failed');
+          return res.json();
+        })
+        .then(function (data) {
+          if (!data || !data.ok) throw new Error('Send failed');
           leadForm.innerHTML = '<h2 class="h-card" style="font-size:1.3rem;">Thanks — We Got It.</h2><p class="text-muted mt-3">We\'ll respond by phone, text, or email within one business day.</p>';
         })
         .catch(function () {
