@@ -4,7 +4,25 @@
 # Show the site's own "page not found" page for wrong addresses
 ErrorDocument 404 /404.html
 
-# Keep internal files out of public view
 RewriteEngine On
+
+# Keep internal files out of public view
 RewriteRule ^design-system(/|$) - [R=404,L]
 RewriteRule ^\.gitignore$ - [R=404,L]
+
+# One address only: https + www (the temporary hostingersite.com address is left alone)
+RewriteCond %{HTTP_HOST} ^washingtonluisbjj\.com$ [NC]
+RewriteRule ^(.*)$ https://www.washingtonluisbjj.com/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.washingtonluisbjj\.com$ [NC]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://www.washingtonluisbjj.com/$1 [R=301,L]
+
+# Old Wix addresses -> closest page on this site
+RewriteRule ^services/?$ /programs.html [R=301,L]
+RewriteRule ^service-page/free-trial/?$ /contact.html [R=301,L]
+RewriteRule ^service-page/ /programs.html [R=301,L]
+RewriteRule ^instructors/?$ /about.html [R=301,L]
+RewriteRule ^contact/?$ /contact.html [R=301,L]
+RewriteRule ^event-list/?$ /schedule.html [R=301,L]
+RewriteRule ^(category|product-page)/ /programs.html [R=301,L]
+RewriteRule ^(paywall|blank-3|cookie-policy|privacy-policy|terms-and-conditions)/?$ / [R=301,L]
