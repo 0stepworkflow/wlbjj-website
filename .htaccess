@@ -1,0 +1,10 @@
+# Hostinger server settings for washingtonluisbjj.com
+# (GitHub Pages ignores this file.)
+
+# Show the site's own "page not found" page for wrong addresses
+ErrorDocument 404 /404.html
+
+# Keep internal files out of public view
+RewriteEngine On
+RewriteRule ^design-system(/|$) - [R=404,L]
+RewriteRule ^\.gitignore$ - [R=404,L]
