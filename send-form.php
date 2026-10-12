@@ -4,7 +4,7 @@
 
 // ---- Settings: change these three lines when launching ----
 $TO_EMAIL   = '0stepworkflow@gmail.com';          // TESTING: Cristian's inbox. Switch to mike.wlbjj@gmail.com at launch.
-$FROM_EMAIL = 'noreply@washingtonluisbjj.com';    // must be an address on this domain
+$FROM_EMAIL = 'noreply@' . preg_replace('/^www\./', '', preg_replace('/[^a-z0-9.-]/i', '', $_SERVER['HTTP_HOST'] ?? 'washingtonluisbjj.com')); // sender on whatever domain serves the page
 $SITE_NAME  = 'Washington Luis Brazilian Jiu-Jitsu';
 // ------------------------------------------------------------
 
