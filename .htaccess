@@ -11,8 +11,11 @@ RewriteRule ^design-system(/|$) - [R=404,L]
 RewriteRule ^\.gitignore$ - [R=404,L]
 
 # One address only: https + www (the temporary hostingersite.com address is left alone)
+# (certificate checks under /.well-known/ are left alone so Hostinger can issue the https certificate)
+RewriteCond %{REQUEST_URI} !^/\.well-known/
 RewriteCond %{HTTP_HOST} ^washingtonluisbjj\.com$ [NC]
 RewriteRule ^(.*)$ https://www.washingtonluisbjj.com/$1 [R=301,L]
+RewriteCond %{REQUEST_URI} !^/\.well-known/
 RewriteCond %{HTTP_HOST} ^www\.washingtonluisbjj\.com$ [NC]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://www.washingtonluisbjj.com/$1 [R=301,L]
