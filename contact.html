@@ -129,8 +129,8 @@
       </div>
 
       <div data-reveal>
-        <!-- Lead form: posts to send-form.php, which emails the business owner. -->
-        <form class="card" style="background:var(--color-card);border:1px solid var(--color-border);padding:var(--space-5);" action="send-form.php" method="post" data-form="lead-capture">
+        <!-- Lead form: posts to a Google Apps Script web app (source: ../apps-script/contact-form.gs) that emails the business owner. -->
+        <form class="card" style="background:var(--color-card);border:1px solid var(--color-border);padding:var(--space-5);" action="https://script.google.com/macros/s/AKfycbxu6RdQZ0nLh1sGHZFf6Td60K09dsS0rTLN1A9U1WmV6t_ThmMhBP1aFxT2q_MYqzT-/exec" method="post" data-form="lead-capture">
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
           <h2 class="h-card" style="font-size:1.3rem;">Request Your Free First Class</h2>
           <div class="form-grid two mt-4">
@@ -259,7 +259,7 @@
 
 <script src="js/main.js?v=8"></script>
 <script>
-  // Submits to send-form.php via fetch so we can show our own confirmation UI
+  // Submits to the Apps Script web app via fetch so we can show our own confirmation UI
   // instead of redirecting off-site. Falls back to a clear error state (with
   // a call/text prompt) if the request fails, rather than pretending it worked.
   var leadForm = document.querySelector('[data-form="lead-capture"]');
@@ -273,8 +273,7 @@
 
       fetch(leadForm.action, {
         method: 'POST',
-        body: new FormData(leadForm),
-        headers: { 'Accept': 'application/json' }
+        body: new URLSearchParams(new FormData(leadForm))
       })
         .then(function (res) {
           if (!res.ok) throw new Error('Request failed');
