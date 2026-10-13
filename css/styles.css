@@ -1058,3 +1058,8 @@ section { padding-block: var(--space-7); }
   .contact-split > div > .card-grid { flex: 1; margin-top: 0; }
   .contact-split > div > form { flex: 1; }
 }
+
+/* Contact page, phone/tablet: let the single column shrink so the dropdown's longest option can't widen it past the screen */
+@media (max-width: 1023px) {
+  .contact-split { grid-template-columns: minmax(0, 1fr); }
+}
